@@ -1,0 +1,23 @@
+{
+  "globals": {},
+
+  "node": true,
+  "browser": false,
+  "debug": false,
+  "devel": false,
+  "evil": false,
+  "forin": false,
+  "immed": true,
+  "maxlen": 100,
+  "indent": 2,
+  "maxdepth": 4,
+  "quotmark": "single",
+  "laxbreak": false,
+  "newcap": true,
+  "nonew": false,
+  "undef": true,
+  "sub": true,
+  "strict": true,
+  "unused": true,
+  "esversion": 6
+}
