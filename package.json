@@ -29,5 +29,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/wallali/watsn-conversation-tool.git"
-  }
+  },
+  "files": [
+    "LICENSE",
+    "History.md",
+    "Readme.md",
+    "watsncv.js",
+    "src/"
+  ]
 }
