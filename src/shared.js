@@ -25,7 +25,7 @@ exports.loadWorkspace = loadWorkspace;
 //--
 
 function loadWorkspace(file) {
-  var normalizedPath = path.join(__dirname, '..', file);
+  var normalizedPath = path.join(process.cwd(), file);
   var stat = fs.statSync(normalizedPath);
 
   if (!normalizedPath.match(/\.json/i) && stat.isFile()) {
