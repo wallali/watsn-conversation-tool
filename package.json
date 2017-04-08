@@ -25,5 +25,9 @@
   },
   "engines": {
     "node": ">=4.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wallali/watsn-conversation-tool.git"
   }
 }
