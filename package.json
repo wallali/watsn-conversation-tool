@@ -2,7 +2,7 @@
   "name": "watsn-conversation-tool",
   "version": "0.0.1",
   "description": "Tool to manage and debug dialogs from the IBM Watson Conversation Service",
-  "main": "app.js",
+  "main": "watsncv.js",
   "scripts": {
     "test": "node_modules/.bin/mocha",
     "lint": "node_modules/.bin/eslint *.js src test",
@@ -21,7 +21,7 @@
     "sinon": "^2.1.0"
   },
   "bin": {
-    "watsncv": "app.js"
+    "watsncv": "watsncv.js"
   },
   "engines": {
     "node": ">=4.x"
