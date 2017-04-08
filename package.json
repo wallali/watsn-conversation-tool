@@ -1,6 +1,6 @@
 {
   "name": "watsn-conversation-tool",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tool to manage and debug dialogs from the IBM Watson Conversation Service",
   "main": "watsncv.js",
   "scripts": {
