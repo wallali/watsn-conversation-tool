@@ -24,6 +24,7 @@ const debug = require('debug')('app:watsncv');
 const pkg = require('./package.json');
 
 exports = module.exports = main;
+main.setupServices = setupServices;
 
 //--
 
@@ -35,19 +36,21 @@ function main() {
 
   program.debug('Loading cassettes from %s', normalizedPath);
 
-  fs.readdirSync(normalizedPath).forEach(function (file) {
-    var fp = path.join(normalizedPath, file);
-    var stat = fs.statSync(fp);
-    if (fp.match(/\.js$/i) && stat.isFile()) {
+  fs.readdirSync(normalizedPath)
+    .filter(filename => /\.js$/i.test(filename))
+    .forEach((file) => {
+      var fp = path.join(normalizedPath, file);
+      var stat = fs.statSync(fp);
+      if (stat.isFile()) {
 
-      program.debug('Loading %s', fp);
+        program.debug('Loading \'%s\'', fp);
 
-      var cassette = require(fp);
-      cassette.load(program);
-    } else {
-      program.debug('Skipped %s, not a file or .js', fp);
-    }
-  });
+        var cassette = require(fp);
+        cassette.load(program);
+      } else {
+        program.debug('Skipped \'%s\', not a file', fp);
+      }
+    });
 
   try {
     program.parse(process.argv);

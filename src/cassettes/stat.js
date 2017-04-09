@@ -32,8 +32,7 @@ function load(program) {
 }
 
 function stat(program, file, options) {
-  var workspace;
-  workspace = shared.loadWorkspace(file);
+  var workspace = shared.loadWorkspace(file);
 
   var format = '%s: %s\n%d intents, %d entities, %d nodes';
 

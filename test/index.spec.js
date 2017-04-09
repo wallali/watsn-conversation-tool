@@ -16,29 +16,32 @@
 
 'use strict';
 
-const util = require('util');
-const path = require('path');
-const fs = require('fs');
-const debug = require('debug')('app:watsncv/shared');
+const assert = require('assert');
+const sinon = require('sinon');
+const main = require('..');
 
-exports.loadWorkspace = loadWorkspace;
 
-//--
+describe('main', function () {
 
-function loadWorkspace(file) {
-  var normalizedPath = path.join(process.cwd(), file);
+  it('setupServices loads program with common services', function () {
+    var prog = {};
+    main.setupServices(prog);
 
-  debug('using normalized path \'%s\'', normalizedPath);
+    assert(prog.out);
+    assert(prog.error);
+    assert(prog.debug);
+    assert(prog.play);
+  });
 
-  var stat = fs.statSync(normalizedPath);
+  it('play calls callback with program as first argument', function () {
+    var prog = {};
+    main.setupServices(prog);
 
-  if (!stat.isFile() || !normalizedPath.match(/\.json$/i)) {
-    throw new Error(
-      util.format('Unexpected extension, workspace file must be JSON, %s \'%s\'',
-        loadWorkspace.name,
-        normalizedPath)
-    );
-  }
+    var operation = sinon.stub();
 
-  return require(normalizedPath);
-}
+    prog.play(operation)('param');
+
+    assert(operation.calledWithExactly(prog, 'param'));
+  });
+
+});

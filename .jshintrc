@@ -3,6 +3,7 @@
 
   "node": true,
   "browser": false,
+  "mocha": true,
   "debug": false,
   "devel": false,
   "evil": false,

@@ -40,4 +40,4 @@ jspm_packages
 .env
 
 conversation-tool*.tgz
-*.json
+/*.json
