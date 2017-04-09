@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * Copyright (c) 2017 Ali Lokhandwala <ali@huestones.co.uk>. All Rights Reserved.
  *
@@ -21,44 +19,58 @@
 const path = require('path');
 const fs = require('fs');
 const program = require('commander');
-const log = require('debug')('app:watsncv');
+const _ = require('lodash');
+const debug = require('debug')('app:watsncv');
 const pkg = require('./package.json');
 
-main();
+exports = module.exports = main;
 
 //--
 
 function main() {
   program.version(pkg.version);
+  setupServices(program);
 
   var normalizedPath = path.join(__dirname, 'src', 'cassettes');
 
-  log('Loading cassettes from %s', normalizedPath);
+  program.debug('Loading cassettes from %s', normalizedPath);
 
   fs.readdirSync(normalizedPath).forEach(function (file) {
     var fp = path.join(normalizedPath, file);
     var stat = fs.statSync(fp);
     if (fp.match(/\.js$/i) && stat.isFile()) {
 
-      log('Loading %s', fp);
+      program.debug('Loading %s', fp);
 
       var cassette = require(fp);
       cassette.load(program);
     } else {
-      log('Skipped %s, not a file or .js', fp);
+      program.debug('Skipped %s, not a file or .js', fp);
     }
   });
 
   try {
     program.parse(process.argv);
   } catch (e) {
-    console.error(e.message);
-    process.exit(1);
+    program.error(e);
   }
 
   if (!process.argv.slice(2).length) {
     program.help();
   }
 
-  return 0;
+  return program;
+}
+
+function setupServices(program) {
+  program.debug = debug;
+
+  program.error = (e => {
+    console.error(e.message);
+    process.exit(1);
+  });
+
+  program.out = console.log;
+
+  program.play = (f => _.wrap(program, f));
 }

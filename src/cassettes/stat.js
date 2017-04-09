@@ -17,21 +17,21 @@
 'use strict';
 
 const util = require('util');
-const shared = require('../shared');
+const shared = require('../lib/shared');
 
-exports.play = play;
 exports.load = load;
+exports.stat = stat;
 
 //--
 
 function load(program) {
-  program.command('stats <file>')
+  program.command('stat <file>')
     .description('Print stats for the conversation file')
     .option('-s, --single', 'Print on a single line')
-    .action(play);
+    .action(program.play(stat));
 }
 
-function play(file, options) {
+function stat(program, file, options) {
   var workspace;
   workspace = shared.loadWorkspace(file);
 
@@ -49,7 +49,5 @@ function play(file, options) {
     workspace.dialog_nodes.length
   );
 
-  console.log(response);
-
-  return response;
+  program.out(response);
 }

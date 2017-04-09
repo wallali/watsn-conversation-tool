@@ -2,7 +2,7 @@
   "name": "watsn-conversation-tool",
   "version": "0.1.3",
   "description": "Tool to manage and debug dialogs from the IBM Watson Conversation Service",
-  "main": "watsncv.js",
+  "main": "index.js",
   "scripts": {
     "test": "node_modules/.bin/mocha",
     "lint": "node_modules/.bin/eslint *.js src test",
@@ -12,7 +12,8 @@
   "license": "Apache-2.0",
   "dependencies": {
     "commander": "^2.9.0",
-    "debug": "^2.6.3"
+    "debug": "^2.6.3",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
@@ -21,7 +22,7 @@
     "sinon": "^2.1.0"
   },
   "bin": {
-    "watsncv": "watsncv.js"
+    "watsncv": "./bin/watsncv.js"
   },
   "engines": {
     "node": ">=4.x"
@@ -34,7 +35,8 @@
     "LICENSE",
     "History.md",
     "Readme.md",
-    "watsncv.js",
-    "src/"
+    "index.js",
+    "src/",
+    "bin/"
   ]
 }
