@@ -17,7 +17,6 @@
 'use strict';
 
 const assert = require('assert');
-const sinon = require('sinon');
 const shared = require('../src/lib/shared');
 
 
