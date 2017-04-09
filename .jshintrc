@@ -9,7 +9,7 @@
   "evil": false,
   "forin": false,
   "immed": true,
-  "maxlen": 100,
+  "maxlen": 120,
   "indent": 2,
   "maxdepth": 4,
   "quotmark": "single",

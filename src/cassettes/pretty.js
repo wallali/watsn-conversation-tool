@@ -16,40 +16,21 @@
 
 'use strict';
 
-const util = require('util');
 const shared = require('../lib/shared');
 
 exports.load = load;
-exports.stat = stat;
+exports.pretty = pretty;
 
 //--
 
 function load(program) {
-  program.command('stat <file>')
-    .description('print stats for the conversation file')
-    .option('-s, --single', 'print on a single line')
-    .action(program.play(stat));
+  program.command('pretty <file>')
+    .description('prettify the json')
+    .action(program.play(pretty));
 }
 
-function stat(program, file, options) {
+function pretty(program, file) {
   var workspace = shared.loadWorkspace(file);
 
-  var format = '%s: %s\n%d intents, %d entities, %d nodes\nlanguage: %s, runtime: %s\n%s';
-
-  if (options.single) {
-    format = format.replace(/\n/gi, ', ');
-  }
-
-  var response = util.format(format,
-    workspace.name,
-    workspace.description,
-    workspace.intents.length,
-    workspace.entities.length,
-    workspace.dialog_nodes.length,
-    workspace.language,
-    workspace.metadata.runtime_version || '-',
-    workspace.workspace_id
-  );
-
-  program.out(response);
+  program.out(JSON.stringify(workspace, null, 2));
 }

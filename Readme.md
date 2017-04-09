@@ -16,10 +16,18 @@ npm install watsn-conversation-tool -g
 
 This will make the command `watsncv` available on your console.
 
+
 Usage
 -----
 Run `watsncv --help` for list of commands.
+
 Run `watsncv <command> -h` for help on a specific command.
+
+For example to output a conversation having only intents with the word 'hello' and pretty print the output:
+
+`watsncv search --only --intents --pretty car_workspace.json hello`
+
+`watsncv search -h` will show you all search options.
 
 
 Debugging
