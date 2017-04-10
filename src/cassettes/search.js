@@ -45,21 +45,21 @@ function search(program, file, string, options) {
 
   if (!options.entities) {
     if (options.before && options.before.isValid()) {
-      _.remove(workspace.intents, i =>
-        options.before.isBefore(options.created ? i.created : i.updated));
-
       workspace.intents.forEach(intent =>
         _.remove(intent.examples, ex =>
           options.before.isBefore(options.created ? ex.created : ex.updated)));
+
+      _.remove(workspace.intents, i =>
+        !i.examples.length && options.before.isBefore(options.created ? i.created : i.updated));
     }
 
     if (options.after && options.after.isValid()) {
-      _.remove(workspace.intents, i =>
-        options.after.isAfter(options.created ? i.created : i.updated));
-
       workspace.intents.forEach(intent =>
         _.remove(intent.examples, ex =>
           options.after.isAfter(options.created ? ex.created : ex.updated)));
+
+      _.remove(workspace.intents, i =>
+        !i.examples.length && options.after.isAfter(options.created ? i.created : i.updated));
     }
 
     if (string) {
