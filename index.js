@@ -52,6 +52,8 @@ function main() {
       }
     });
 
+  program.on('*', () => program.help());
+
   try {
     program.parse(process.argv);
   } catch (e) {
