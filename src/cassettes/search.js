@@ -27,7 +27,7 @@ exports.search = search;
 
 function load(program) {
   program.command('search <file> [string]')
-    .description('search within the conversation file')
+    .description('search for matching intents and entities within the conversation file')
     .option('-b, --before [date]', 'limit search to items modified (or created) before selected date', moment)
     .option('-a, --after [date]', 'limit search to items modified (or created) after selected date', moment)
     .option('-c, --created', 'use creation date instead of modification date for all date filters', moment)
@@ -42,6 +42,10 @@ function load(program) {
 function search(program, file, string, options) {
   var workspace = shared.loadWorkspace(file);
   let re = string ? new RegExp(string, options.ignorecase ? 'gi' : 'g') : null;
+
+  if (options.intents && options.entities) {
+    options.intents = options.entities = false;
+  }
 
   if (!options.entities) {
     if (options.before && options.before.isValid()) {
@@ -96,10 +100,10 @@ function search(program, file, string, options) {
   if (options.only) {
     workspace.dialog_nodes = [];
 
-    if (options.intents && !options.entities) {
+    if (options.intents) {
       workspace.entities = [];
     }
-    if (!options.intents && options.entities) {
+    if (options.entities) {
       workspace.intents = [];
     }
   }
