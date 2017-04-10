@@ -76,12 +76,18 @@ function search(program, file, string, options) {
       workspace.entities.forEach(entity =>
         _.remove(entity.values, v =>
           options.before.isBefore(options.created ? v.created : v.updated)));
+
+      _.remove(workspace.entities, e =>
+        !e.values.length && options.before.isBefore(options.created ? e.created : e.updated));
     }
 
     if (options.after && options.after.isValid()) {
       workspace.entities.forEach(entity =>
         _.remove(entity.values, v =>
           options.after.isAfter(options.created ? v.created : v.updated)));
+
+      _.remove(workspace.entities, e =>
+        !e.values.length && options.after.isAfter(options.created ? e.created : e.updated));
     }
 
     if (string) {
