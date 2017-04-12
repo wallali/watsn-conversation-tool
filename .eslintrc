@@ -1,5 +1,5 @@
 ---
-extends: "defaults"
+extends: "eslint:recommended"
 parserOptions:
   ecmaVersion: 6
 env: 
@@ -12,3 +12,12 @@ rules:
   no-unused-vars: "warn"
   strict: "warn"
   semi: "error"
+  eol-last: "warn"
+  quotes:
+    - "warn"
+    - "single"
+  space-before-function-paren:
+    - "warn"
+    - anonymous: always
+      named: never
+      asyncArrow: ignore
