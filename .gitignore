@@ -41,3 +41,6 @@ jspm_packages
 
 conversation-tool*.tgz
 /*.json
+
+# IDE
+.idea
