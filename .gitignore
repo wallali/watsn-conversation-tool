@@ -40,7 +40,7 @@ jspm_packages
 .env
 
 conversation-tool*.tgz
-/*.json
+workspace*.json
 
 # IDE
 .idea
