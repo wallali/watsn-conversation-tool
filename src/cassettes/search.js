@@ -115,16 +115,16 @@ function search(program, file, string, options) {
     }
   }
 
-  if (options.node){
+  if (options.node) {
     var nodeID = program.args[2].node;
     var allNodes = workspace.dialog_nodes;
     workspace = {};
 
-    var yourNode = (_.find(allNodes, {'dialog_node': nodeID })) || {};
-    var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent })) || {};
+    var yourNode = (_.find(allNodes, {'dialog_node': nodeID})) || {};
+    var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent})) || {};
     var nextStep = {};
-    if (yourNode.next_step){
-      nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node })) || {};
+    if (yourNode.next_step) {
+      nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node})) || {};
     }
 
     workspace.PARENT_NODE = parentNode;
