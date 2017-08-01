@@ -122,7 +122,10 @@ function search(program, file, string, options) {
 
     var yourNode = (_.find(allNodes, {'dialog_node': nodeID })) || {};
     var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent })) || {};
-    var nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node })) || {};
+    var nextStep = {};
+    if (yourNode.next_step){
+      nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node })) || {};
+    }
 
     workspace.PARENT_NODE = parentNode;
     workspace.sep1 = '============================';
