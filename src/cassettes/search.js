@@ -116,11 +116,11 @@ function search(program, file, string, options) {
   }
 
   if (options.node) {
-    var nodeID = program.args[2].node;
+    var nodeId = options.node;
     var allNodes = workspace.dialog_nodes;
     workspace = {};
 
-    var yourNode = (_.find(allNodes, {'dialog_node': nodeID})) || {};
+    var yourNode = (_.find(allNodes, {'dialog_node': nodeId})) || {};
     var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent})) || {};
     var nextStep = {};
     if (yourNode.next_step) {
