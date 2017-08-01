@@ -34,6 +34,7 @@ function load(program) {
     .option('-i, --ignorecase', 'perform case insensitive search with string')
     .option('-n, --intents', 'limit search to intents')
     .option('-e, --entities', 'limit search to entities')
+    .option('-m, --node <node>', 'specify the node ID to be searched', null)
     .option('-o, --only', 'use in conjunction with -n or -e to output only intents or entities')
     .option('-p, --pretty', 'make the output look pretty')
     .action(program.play(search));
@@ -112,6 +113,22 @@ function search(program, file, string, options) {
     if (options.entities) {
       workspace.intents = [];
     }
+  }
+
+  if (options.node){
+    var nodeID = program.args[2].node;
+    var allNodes = workspace.dialog_nodes;
+    workspace = {};
+
+    var yourNode = (_.find(allNodes, {'dialog_node': nodeID })) || {};
+    var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent })) || {};
+    var nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node })) || {};
+
+    workspace.PARENT_NODE = parentNode;
+    workspace.sep1 = '============================';
+    workspace.YOUR_NODE = yourNode;
+    workspace.sep2 = '============================';
+    workspace.NEXT_STEP = nextStep;
   }
 
   program.out(JSON.stringify(workspace, null, options.pretty ? 2 : null));
