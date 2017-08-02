@@ -19,6 +19,7 @@
 const _ = require('lodash');
 const moment = require('moment');
 const shared = require('../lib/shared');
+const prettyjson = require('prettyjson');
 
 exports.load = load;
 exports.search = search;
@@ -115,24 +116,21 @@ function search(program, file, string, options) {
     }
   }
 
-  if (options.node) {
+  if (!options.node) {
+    program.out(JSON.stringify(workspace, null, options.pretty ? 2 : null));
+  } else {
     var nodeId = options.node;
     var allNodes = workspace.dialog_nodes;
-    workspace = {};
 
-    var yourNode = (_.find(allNodes, {'dialog_node': nodeId})) || {};
-    var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent})) || {};
-    var nextStep = {};
+    var yourNode = (_.find(allNodes, {'dialog_node': nodeId})) || 'Node not found';
+    var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent})) || 'Node not found';
+    var nextStep = 'Node not found';
     if (yourNode.next_step) {
-      nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node})) || {};
+      nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node})) || 'Node not found';
     }
 
-    workspace.PARENT_NODE = parentNode;
-    workspace.sep1 = '============================';
-    workspace.YOUR_NODE = yourNode;
-    workspace.sep2 = '============================';
-    workspace.NEXT_STEP = nextStep;
+    program.out('Parent Node: \n' + prettyjson.render(parentNode) + '\n');
+    program.out('Your Node: \n' + prettyjson.render(yourNode) + '\n');
+    program.out('Next Step: \n' + prettyjson.render(nextStep) + '\n');
   }
-
-  program.out(JSON.stringify(workspace, null, options.pretty ? 2 : null));
 }
