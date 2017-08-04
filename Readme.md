@@ -31,7 +31,7 @@ For example to output a conversation having only intents with the word 'hello' a
 
 To search for a specific node within your JSON file, you need the `m` or `--node` flags. 
 First pass in the node ID (case sensitive), then the filename of the JSON. For example:
-`watsncv search --pretty --node node_123456 car_workspace.json`
+`watsncv search --node node_123456 car_workspace.json`
 
 
 Debugging
