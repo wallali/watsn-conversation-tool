@@ -124,9 +124,9 @@ function search(program, file, string, options) {
 
     var yourNode = (_.find(allNodes, {'dialog_node': nodeId})) || 'Node not found';
     var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent})) || 'Node not found';
-    var nextStep = 'Node not found';
-    if (yourNode.next_step) {
-      nextStep = (_.find(allNodes, {'dialog_node': yourNode.next_step.dialog_node})) || 'Node not found';
+    var nextStep = yourNode.next_step || yourNode.go_to || 'Node not found';
+    if (nextStep !== 'Node not found') {
+      nextStep = (_.find(allNodes, {'dialog_node': nextStep.dialog_node})) || 'Node not found';
     }
 
     program.out('Parent Node: \n' + prettyjson.render(parentNode) + '\n');
