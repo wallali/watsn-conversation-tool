@@ -14,3 +14,7 @@ script:
 cache:
   directories:
     - node_moduless
+
+notifications:
+  email:
+    - christianosholland@gmail.com

@@ -29,8 +29,7 @@ function load(program) {
 // Do what needs doing for your command
 // program is always the first parameter passed in. The rest depend on your command setup in load.
 function yourcmd(program, file, options) {
-  var workspace;
-  workspace = shared.loadWorkspace(file);
+  var workspace = shared.loadWorkspace(file);
   
   if(options.opt) {
     // The opt flag was set
