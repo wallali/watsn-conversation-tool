@@ -36,6 +36,7 @@ function load(program) {
     .option('-n, --intents', 'limit search to intents')
     .option('-e, --entities', 'limit search to entities')
     .option('-m, --node <node>', 'specify the node ID to be searched', null)
+    .option('-t, --context [variable]', 'Output only the nodes that change a given variable within the context', null)
     .option('-o, --only', 'use in conjunction with -n or -e to output only intents or entities')
     .option('-p, --pretty', 'make the output look pretty')
     .action(program.play(search));
@@ -116,17 +117,28 @@ function search(program, file, string, options) {
     }
   }
 
-  if (!options.node) {
+  if (options.context) {
+    workspace.intents = [];
+    workspace.entities = [];
+
+    let contextVar = options.context;
+
+    workspace.dialog_nodes = workspace.dialog_nodes.filter(node => JSON.stringify(node.context || {}).includes(contextVar));
+  }
+
+  if (!options.node && !options.context) {
     program.out(JSON.stringify(workspace, null, options.pretty ? 2 : null));
+  } else if (options.context) {
+    program.out(prettyjson.render(workspace));
   } else {
     var nodeId = options.node;
     var allNodes = workspace.dialog_nodes;
 
-    var yourNode = (_.find(allNodes, {'dialog_node': nodeId})) || 'Node not found';
-    var parentNode = (_.find(allNodes, {'dialog_node': yourNode.parent})) || 'Node not found';
+    var yourNode = (_.find(allNodes, { 'dialog_node': nodeId })) || 'Node not found';
+    var parentNode = (_.find(allNodes, { 'dialog_node': yourNode.parent })) || 'Node not found';
     var nextStep = yourNode.next_step || yourNode.go_to || 'Node not found';
     if (nextStep !== 'Node not found') {
-      nextStep = (_.find(allNodes, {'dialog_node': nextStep.dialog_node})) || 'Node not found';
+      nextStep = (_.find(allNodes, { 'dialog_node': nextStep.dialog_node })) || 'Node not found';
     }
 
     program.out('Parent Node: \n' + prettyjson.render(parentNode) + '\n');

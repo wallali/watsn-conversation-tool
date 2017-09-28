@@ -27,6 +27,8 @@ For example to output a conversation having only intents with the word 'hello' a
 
 `watsncv search --only --intents --pretty car_workspace.json hello`
 
+`watsncv search --context <context variable> --pretty car_workspace.json` Will search for nodes that contain the search string within its context object (if exists)
+
 `watsncv search -h` will show you all search options.
 
 To search for a specific node within your JSON file, you need the `m` or `--node` flags. 
