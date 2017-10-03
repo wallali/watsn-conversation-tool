@@ -17,6 +17,7 @@
 'use strict';
 
 const assert = require('assert');
+const _ = require('lodash');
 const sinon = require('sinon');
 const moment = require('moment');
 const cassette = require('../src/cassettes/search');
@@ -43,12 +44,14 @@ describe('search cassette', function () {
   });
 
   it('--context finds specified context variable', function (done) {
-    cassette.search(program, './test/sample/car_workspace.json', 'reprompt', { 'context': true });
+    let workspace = cassette.search(program, './test/sample/car_workspace.json', 'reprompt', { 'context': true });
 
     assert(program.out.calledOnce);
-    assert(program.out.args[0][0].match(/intents: \n..\(empty array\)\n/g));
-    assert(program.out.args[0][0].match(/entities: \n..\(empty array\)\n/g));
-    assert(program.out.args[0][0].match(/context: \n.*reprompt/g));
+    assert.strictEqual(workspace.entities.length, 0);
+    assert.strictEqual(workspace.intents.length, 0);
+    _.forEach(workspace.intents.dialog_nodes, function(node) {
+      assert(_.includes(node.context, 'reprompt'));
+    });
     done();
   });
 
@@ -64,14 +67,26 @@ describe('search cassette', function () {
     done();
   });
 
-  it('finds intents modified after given date', function (done) {
-    let afterDate = moment('2017-03-14');
-    let options = { 'pretty': true, 'only': true, 'intents': true, 'after': afterDate };
+  it('finds anything modified before given date', function (done) {
+    let beforeDate = moment('2017-03-14');
+    let options = { 'pretty': true, 'only': true, 'before': beforeDate };
 
     cassette.search(program, './test/sample/car_workspace.json', null, options);
 
     assert(program.out.calledOnce);
+    assert(program.out.args[0][0].match(/"intents".*\n.*\n.*\n.*\n.*"updated": "2017-03-12/g));
     assert(program.out.args[0][0].match(/"entities":.\[\],/g));
+    done();
+  });
+
+  it('finds intents modified after given date', function (done) {
+    let afterDate = moment('2017-03-13');
+    let options = { 'pretty': true, 'only': true, 'intents': true, 'after': afterDate };
+
+    let workspace = cassette.search(program, './test/sample/car_workspace.json', null, options);
+
+    assert(program.out.calledOnce);
+    assert.strictEqual(workspace.entities.length, 0);
     assert(!program.out.args[0][0].match(/"updated": "2017-03-1[^4]/g));
     done();
   });

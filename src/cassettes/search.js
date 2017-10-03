@@ -67,7 +67,7 @@ function search(program, file, string, options) {
           options.after.isAfter(options.created ? ex.created : ex.updated)));
 
       _.remove(workspace.intents, i =>
-        !i.examples.length && options.after.isAfter(options.created ? i.created : i.updated));
+        options.after.isAfter(options.created ? i.created : i.updated));
     }
 
     if (string) {
@@ -95,7 +95,7 @@ function search(program, file, string, options) {
           options.after.isAfter(options.created ? v.created : v.updated)));
 
       _.remove(workspace.entities, e =>
-        !e.values.length && options.after.isAfter(options.created ? e.created : e.updated));
+        options.after.isAfter(options.created ? e.created : e.updated));
     }
 
     if (string) {
@@ -146,4 +146,6 @@ function search(program, file, string, options) {
     program.out('Your Node: \n' + prettyjson.render(yourNode) + '\n');
     program.out('Next Step: \n' + prettyjson.render(nextStep) + '\n');
   }
+
+  return(workspace);
 }
