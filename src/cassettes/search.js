@@ -44,7 +44,7 @@ function load(program) {
 
 function search(program, file, string, options) {
   let loadedJSON = shared.loadWorkspace(file);
-  let workspace = _.clone(loadedJSON);
+  let workspace = _.cloneDeep(loadedJSON);
   let re = string ? new RegExp(string, options.ignorecase ? 'gi' : 'g') : null;
 
   if (options.intents && options.entities) {

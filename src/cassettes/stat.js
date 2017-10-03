@@ -34,7 +34,7 @@ function load(program) {
 
 function stat(program, file, options) {
   let loadedJSON = shared.loadWorkspace(file);
-  let workspace = _.clone(loadedJSON);
+  let workspace = _.cloneDeep(loadedJSON);
 
   var format = '%s: %s\n%d intents, %d entities, %d nodes\nlanguage: %s, runtime: %s\n%s';
 

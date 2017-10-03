@@ -32,7 +32,7 @@ function load(program) {
 
 function pretty(program, file) {
   let loadedJSON = shared.loadWorkspace(file);
-  let workspace = _.clone(loadedJSON);
+  let workspace = _.cloneDeep(loadedJSON);
 
   program.out(JSON.stringify(workspace, null, 2));
 }
