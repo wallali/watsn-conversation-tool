@@ -17,6 +17,7 @@
 'use strict';
 
 const shared = require('../lib/shared');
+const _ = require('lodash');
 
 exports.load = load;
 exports.pretty = pretty;
@@ -30,7 +31,8 @@ function load(program) {
 }
 
 function pretty(program, file) {
-  var workspace = shared.loadWorkspace(file);
+  let loadedJSON = shared.loadWorkspace(file);
+  let workspace = _.clone(loadedJSON);
 
   program.out(JSON.stringify(workspace, null, 2));
 }

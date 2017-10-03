@@ -43,7 +43,8 @@ function load(program) {
 }
 
 function search(program, file, string, options) {
-  var workspace = shared.loadWorkspace(file);
+  let loadedJSON = shared.loadWorkspace(file);
+  let workspace = _.clone(loadedJSON);
   let re = string ? new RegExp(string, options.ignorecase ? 'gi' : 'g') : null;
 
   if (options.intents && options.entities) {
@@ -131,12 +132,12 @@ function search(program, file, string, options) {
   } else if (options.context) {
     program.out(prettyjson.render(workspace));
   } else {
-    var nodeId = options.node;
-    var allNodes = workspace.dialog_nodes;
+    let nodeId = options.node;
+    let allNodes = workspace.dialog_nodes;
 
-    var yourNode = (_.find(allNodes, { 'dialog_node': nodeId })) || 'Node not found';
-    var parentNode = (_.find(allNodes, { 'dialog_node': yourNode.parent })) || 'Node not found';
-    var nextStep = yourNode.next_step || yourNode.go_to || 'Node not found';
+    let yourNode = (_.find(allNodes, { 'dialog_node': nodeId })) || 'Node not found';
+    let parentNode = (_.find(allNodes, { 'dialog_node': yourNode.parent })) || 'Node not found';
+    let nextStep = yourNode.next_step || yourNode.go_to || 'Node not found';
     if (nextStep !== 'Node not found') {
       nextStep = (_.find(allNodes, { 'dialog_node': nextStep.dialog_node })) || 'Node not found';
     }

@@ -18,6 +18,7 @@
 
 const util = require('util');
 const shared = require('../lib/shared');
+const _ = require('lodash');
 
 exports.load = load;
 exports.stat = stat;
@@ -32,7 +33,8 @@ function load(program) {
 }
 
 function stat(program, file, options) {
-  var workspace = shared.loadWorkspace(file);
+  let loadedJSON = shared.loadWorkspace(file);
+  let workspace = _.clone(loadedJSON);
 
   var format = '%s: %s\n%d intents, %d entities, %d nodes\nlanguage: %s, runtime: %s\n%s';
 
