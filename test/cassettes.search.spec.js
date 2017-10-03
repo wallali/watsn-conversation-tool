@@ -99,5 +99,15 @@ describe('search cassette', function () {
     assert(program.out.args[1][0].match(/dialog_node:.*node_12_1467233032148/g));
     done();
   });
+
+  it('--node -r finds specified node with all parents up to the root', function (done) {
+    let options = { 'node': 'node_2_1484787801871', 'root': true};
+    cassette.search(program, './test/sample/car_workspace.json', '', options);
+
+    assert(program.out.called);
+    assert.strictEqual(program.out.args.length, 5);
+    assert(program.out.args[3][0].match(/dialog_node:.*node_2_1484787801871/g));
+    done();
+  });
 })
 ;
