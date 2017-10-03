@@ -49,7 +49,7 @@ describe('search cassette', function () {
     assert(program.out.calledOnce);
     assert.strictEqual(workspace.entities.length, 0);
     assert.strictEqual(workspace.intents.length, 0);
-    _.forEach(workspace.intents.dialog_nodes, function(node) {
+    _.forEach(workspace.intents.dialog_nodes, function (node) {
       assert(_.includes(node.context, 'reprompt'));
     });
     done();

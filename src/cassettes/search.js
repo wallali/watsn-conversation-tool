@@ -36,6 +36,7 @@ function load(program) {
     .option('-n, --intents', 'limit search to intents')
     .option('-e, --entities', 'limit search to entities')
     .option('-m, --node <node>', 'specify the node ID to be searched', null)
+    .option('-r, --root', 'use in conjunction with --node to display all nodes previous nodes until root node')
     .option('-t, --context [variable]', 'Output only the nodes that change a given variable within the context', null)
     .option('-o, --only', 'use in conjunction with -n or -e to output only intents or entities')
     .option('-p, --pretty', 'make the output look pretty')
@@ -142,10 +143,25 @@ function search(program, file, string, options) {
       nextStep = (_.find(allNodes, { 'dialog_node': nextStep.dialog_node })) || 'Node not found';
     }
 
-    program.out('Parent Node: \n' + prettyjson.render(parentNode) + '\n');
+    if (options.root && yourNode.parent) {
+      let thisNode, parentNodes = [];
+      parentNodes.push(parentNode);
+      thisNode = parentNode;
+
+      while (thisNode.parent) {
+        thisNode = (_.find(allNodes, { 'dialog_node': thisNode.parent }));
+        parentNodes.push(thisNode);
+      }
+      parentNodes.reverse();
+      _.forEach(parentNodes, function (node) {
+        program.out('Parent Node: \n' + prettyjson.render(node) + '\n');
+      });
+    } else {
+      program.out('Parent Node: \n' + prettyjson.render(parentNode) + '\n');
+    }
     program.out('Your Node: \n' + prettyjson.render(yourNode) + '\n');
     program.out('Next Step: \n' + prettyjson.render(nextStep) + '\n');
   }
 
-  return(workspace);
+  return (workspace);
 }
